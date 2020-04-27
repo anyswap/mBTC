@@ -13,7 +13,7 @@ contract BtcSwapAsset is ERC20 {
         _;
     }
 
-    constructor() public ERC20("BTC Swap Asset", "mBTC") {
+    constructor() public ERC20("SMPC Bitcoin", "mBTC") {
         owner = msg.sender;
 	_setupDecimals(8);
     }
