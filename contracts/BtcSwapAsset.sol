@@ -25,8 +25,24 @@ contract BtcSwapAsset is ERC20 {
     }
 
     function Swapout(uint256 amount, string memory bindaddr) public returns (bool) {
+        verifyBindAddr(bindaddr);
         _burn(_msgSender(), amount);
         emit LogSwapout(_msgSender(), amount, bindaddr);
         return true;
+    }
+
+    function verifyBindAddr(string memory bindaddr) pure internal {
+        uint length = bytes(bindaddr).length;
+        require(length >= 26, "address length is too short");
+
+        byte ch = bytes(bindaddr)[0];
+
+        if (ch == '1' || ch == '3') {
+            require(length <= 34, "mainnet address length is too long");
+        } else if (ch == '2' || ch == 'm' || ch == 'n') {
+            require(length <= 35, "testnet address length is too long");
+        } else {
+            require(false, "unsupported address leading symbol");
+        }
     }
 }
