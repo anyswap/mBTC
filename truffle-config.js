@@ -10,12 +10,16 @@ module.exports = {
     },
   },
 
-  /*
   compilers: {
     solc: {
-      version: "0.5.10",
-      evmVersion: "constantinople"
+      version: "0.5.16",
+      //evmVersion: "constantinople"
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 1500
+        }
+      }
     }
   }
-  */
 }
