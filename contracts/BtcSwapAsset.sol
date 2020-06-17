@@ -15,7 +15,7 @@ contract BtcSwapAsset is ERC20 {
 
     constructor() public ERC20("SMPC Bitcoin", "mBTC") {
         owner = msg.sender;
-	_setupDecimals(8);
+        _setupDecimals(8);
     }
 
     function Swapin(bytes32 txhash, address account, uint256 amount) public onlyOwner returns (bool) {
