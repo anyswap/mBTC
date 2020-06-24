@@ -14,13 +14,20 @@ if (whichDeploy == "Btc") {
   module.exports = function(deployer) {
     deployer.deploy(EthSwapAsset);
   };
+} else if (whichDeploy == "Usdt") {
+  // deploy UsdtSwapAsset
+  var UsdtSwapAsset = artifacts.require("UsdtSwapAsset");
+
+  module.exports = function(deployer) {
+    deployer.deploy(UsdtSwapAsset);
+  };
 } else if (whichDeploy == "Erc20") {
   // deploy Erc20SwapAsset
   var Erc20SwapAsset = artifacts.require("Erc20SwapAsset");
 
   // custom according to the Erc20 contract
-  var erc20Symbol = "USDT"
-  var erc20Decimals = 8
+  var erc20Symbol = "ERC20"
+  var erc20Decimals = 18
 
   var name = "SMPC " + erc20Symbol
   var symbol = "m" + erc20Symbol
