@@ -4,7 +4,7 @@ import "./ERC20/ERC20.sol";
 
 contract Erc20SwapAsset is ERC20 {
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
-    event LogSwapout(address indexed account, uint amount);
+    event LogSwapout(address indexed account, address indexed bindaddr, uint amount);
 
     address public owner;
 
@@ -24,9 +24,10 @@ contract Erc20SwapAsset is ERC20 {
         return true;
     }
 
-    function Swapout(uint256 amount) public returns (bool) {
+    function Swapout(uint256 amount, address bindaddr) public returns (bool) {
+        require(bindaddr != address(0), "bind address is the zero address");
         _burn(_msgSender(), amount);
-        emit LogSwapout(_msgSender(), amount);
+        emit LogSwapout(_msgSender(), bindaddr, amount);
         return true;
     }
 }

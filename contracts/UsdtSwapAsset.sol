@@ -4,7 +4,7 @@ import "./ERC20/ERC20.sol";
 
 contract UsdtSwapAsset is ERC20 {
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
-    event LogSwapout(address indexed account, uint amount);
+    event LogSwapout(address indexed account, address indexed bindaddr, uint amount);
 
     address public owner;
 
@@ -13,7 +13,7 @@ contract UsdtSwapAsset is ERC20 {
         _;
     }
 
-    constructor() public ERC20("SMPC ERC20 USDT", "mUSDT") {
+    constructor() public ERC20("SMPC USDT", "mUSDT") {
         owner = msg.sender;
         _setupDecimals(6);
     }
@@ -24,9 +24,10 @@ contract UsdtSwapAsset is ERC20 {
         return true;
     }
 
-    function Swapout(uint256 amount) public returns (bool) {
+    function Swapout(uint256 amount, address bindaddr) public returns (bool) {
+        require(bindaddr != address(0), "bind address is the zero address");
         _burn(_msgSender(), amount);
-        emit LogSwapout(_msgSender(), amount);
+        emit LogSwapout(_msgSender(), bindaddr, amount);
         return true;
     }
 }
