@@ -6,6 +6,24 @@ please ref. to [crossChain-Bridge](https://github.com/fsn-dev/crossChain-Bridge)
 
 ## How to deploy contract using truffle
 
+## 0. install @openzeppelin/contracts
+
+```shell
+npm install
+```
+
+### flatten contract
+
+This has been already done. Mention here only for re-flatten if modified later.
+
+```shell
+mpm install -g truffle-flattener
+truffle-flattener internal/BtcSwapAsset.sol | sed '/SPDX-License-Identifier:/d' | sed 1i'// SPDX-License-Identifier: MIT' > contracts/BtcSwapAsset.sol
+truffle-flattener internal/EthSwapAsset.sol | sed '/SPDX-License-Identifier:/d' | sed 1i'// SPDX-License-Identifier: MIT' > contracts/EthSwapAsset.sol
+truffle-flattener internal/UsdtSwapAsset.sol | sed '/SPDX-License-Identifier:/d' | sed 1i'// SPDX-License-Identifier: MIT' > contracts/UsdtSwapAsset.sol
+truffle-flattener internal/Erc20SwapAsset.sol | sed '/SPDX-License-Identifier:/d' | sed 1i'// SPDX-License-Identifier: MIT' > contracts/Erc20SwapAsset.sol
+```
+
 ### 1. Modify truffle config
 
 [truffle-config.js](

@@ -1,0 +1,25 @@
+{
+  "name": "mBTC",
+  "version": "1.0.0",
+  "description": "mBTC smart contract",
+  "main": "",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anyswap/mBTC.git"
+  },
+  "author": "jowneshaw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anyswap/mBTC/issues"
+  },
+  "homepage": "https://github.com/anyswap/mBTC#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "2.5.0"
+  }
+}
