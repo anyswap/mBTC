@@ -14,7 +14,7 @@ contract UsdtSwapAsset is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("SMPC USDT", "mUSDT", 6) {
+    constructor() public ERC20Detailed("ANY Tether-ERC20", "aUSDT", 6) {
         owner = msg.sender;
     }
 
