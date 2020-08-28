@@ -576,7 +576,7 @@ contract BtcSwapAsset is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("SMPC Bitcoin", "mBTC", 8) {
+    constructor() public ERC20Detailed("ANY Bitcoin", "aBTC", 8) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }

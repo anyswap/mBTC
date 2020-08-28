@@ -576,7 +576,7 @@ contract EthSwapAsset is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("SMPC Ethereum", "mETH", 18) {
+    constructor() public ERC20Detailed("ANY Ethereum", "aETH", 18) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
