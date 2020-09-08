@@ -576,7 +576,7 @@ contract UsdtSwapAsset is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("ANY Tether-ERC20", "aUSDT", 6) {
+    constructor() public ERC20Detailed("ANY Tether-ERC20", "anyUSDT", 6) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
