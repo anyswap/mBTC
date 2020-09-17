@@ -2,7 +2,7 @@
 
 this is an example of creating a swap asset (ERC20) contract with required `Swapin` and `Swapout` methods for cross chain bridge.
 
-please ref. to [crossChain-Bridge](https://github.com/fsn-dev/crossChain-Bridge).
+please ref. to [CrossChain-Bridge](https://github.com/anyswap/CrossChain-Bridge).
 
 ## How to deploy contract using truffle
 
@@ -27,7 +27,7 @@ truffle-flattener internal/Erc20SwapAsset.sol | sed '/SPDX-License-Identifier:/d
 ### 1. Modify truffle config
 
 [truffle-config.js](
-https://github.com/fsn-dev/mBTC/blob/master/truffle-config.js)
+https://github.com/anyswap/mBTC/blob/master/truffle-config.js)
  
  Normally, you may meed to modify the following items:
  
@@ -39,13 +39,13 @@ https://github.com/fsn-dev/mBTC/blob/master/truffle-config.js)
 
  Add and modify contracts in `contracts` directory.
 
- like our example: [BtcSwapAsset.sol](https://github.com/fsn-dev/mBTC/blob/master/contracts/BtcSwapAsset.sol).
+ like our example: [BtcSwapAsset.sol](https://github.com/anyswap/mBTC/blob/master/contracts/BtcSwapAsset.sol).
 
 ### 3. Add migrations to deploy contract
 
 Add an `js` file to depoly contract in `migrations` directory.
 
-like our example: [2_deploy_contracts.js](https://github.com/fsn-dev/mBTC/blob/master/migrations/2_deploy_contracts.js).
+like our example: [2_deploy_contracts.js](https://github.com/anyswap/mBTC/blob/master/migrations/2_deploy_contracts.js).
 
 ### 4. Compile contract
 
@@ -90,6 +90,21 @@ Because we need to build a raw contract creation transaction and sign this raw t
 So we need the `bytecode` as the transaction input data to build a raw contract cteation transaction.
 
 `bytecode` can be found in `./build/contracts/BtcSwapAsset.json`
+
+#### 5.3 how to get bytecode of contract with constructor arguments
+
+the `bytecode` in truffle built contracts is `runtime bytecode` which has not the constructor argument info.
+
+we should append the packed constructor arguments data (like abi encoding) to the end of the `runtime bytecode`
+to generage the `creation bytecode` which is used as contract creation transaction's input data.
+
+the following is a way by attaching to full node:
+
+```javascript
+abi = ...
+runtime_bytecode = ...
+creation_bytecode = eth.contract(abi).getData(param1,param2,...lastparam,{from:eth.coinbase,data:runtime_bytecode})
+```
 
 ### 6. Access the deployed contract
 
