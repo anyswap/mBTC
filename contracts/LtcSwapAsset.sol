@@ -556,13 +556,13 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-// File: internal/LtcSwapAssetV2.sol
+// File: internal/LtcSwapAsset.sol
 
 pragma solidity ^0.5.0;
 
 
 
-contract BtcSwapAssetV2 is ERC20, ERC20Detailed {
+contract LtcSwapAsset is ERC20, ERC20Detailed {
     event LogChangeDCRMOwner(address indexed oldOwner, address indexed newOwner, uint indexed effectiveHeight);
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
     event LogSwapout(address indexed account, uint amount, string bindaddr);
