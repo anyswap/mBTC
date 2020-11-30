@@ -562,7 +562,7 @@ pragma solidity ^0.5.0;
 
 
 
-contract BtcSwapAssetV2 is ERC20, ERC20Detailed {
+contract LtcSwapAssetV2 is ERC20, ERC20Detailed {
     event LogChangeDCRMOwner(address indexed oldOwner, address indexed newOwner, uint indexed effectiveHeight);
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
     event LogSwapout(address indexed account, uint amount, string bindaddr);
