@@ -100,7 +100,12 @@ with solc version of `0.5.4+commit.9549d8ff.Emscripten.clang`
 solcjs --bin --output-dir solc --evm-version byzantium --optimize --runs=1500 contracts/*.sol
 ```
 
-#### 5.4 how to get bytecode of contract with constructor arguments
+#### 5.4 get byte code by remix
+
+use remix: 
+<https://remix.ethereum.org/#optimize=true&evmVersion=null&version=soljson-v0.5.4+commit.9549d8ff.js&runs=200>
+
+#### 5.5 how to get bytecode of contract with constructor arguments
 
 the `bytecode` in truffle built contracts is `runtime bytecode` which has not the constructor argument info.
 

@@ -556,16 +556,16 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-// File: internal/BlockSwapAssetV2.sol
+// File: internal/EthSwapAsset.sol
 
 pragma solidity ^0.5.0;
 
 
 
-contract BlockSwapAssetV2 is ERC20, ERC20Detailed {
+contract EtcSwapAsset is ERC20, ERC20Detailed {
     event LogChangeDCRMOwner(address indexed oldOwner, address indexed newOwner, uint indexed effectiveHeight);
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
-    event LogSwapout(address indexed account, uint amount, string bindaddr);
+    event LogSwapout(address indexed account, address indexed bindaddr, uint amount);
 
     address private _oldOwner;
     address private _newOwner;
@@ -576,7 +576,7 @@ contract BlockSwapAssetV2 is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("ANY Block", "anyBLOCK", 8) {
+    constructor() public ERC20Detailed("ANY EthereumClassic", "anyETC", 18) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
@@ -603,36 +603,10 @@ contract BlockSwapAssetV2 is ERC20, ERC20Detailed {
         return true;
     }
 
-    function Swapout(uint256 amount, string memory bindaddr) public returns (bool) {
-        verifyBindAddr(bindaddr);
+    function Swapout(uint256 amount, address bindaddr) public returns (bool) {
+        require(bindaddr != address(0), "bind address is the zero address");
         _burn(_msgSender(), amount);
-        emit LogSwapout(_msgSender(), amount, bindaddr);
+        emit LogSwapout(_msgSender(), bindaddr, amount);
         return true;
-    }
-
-    function verifyBindAddr(string memory bindaddr) pure internal {
-        uint length = bytes(bindaddr).length;
-        require(length >= 26, "address length is too short");
-
-        byte ch = bytes(bindaddr)[0];
-        byte ch2 = bytes(bindaddr)[1];
-        byte ch3 = bytes(bindaddr)[2];
-        byte ch4 = bytes(bindaddr)[3];
-        byte ch5 = bytes(bindaddr)[4];
-        byte ch6 = bytes(bindaddr)[5];
-
-// Mainnet
-// p2pkh	base58		0x1a	B		34
-// p2sh		base58		0x1c	C		34
-// p2wpkh	bech32		0x06	block1q		45
-// p2wsh	bech32		0x0A	block1q		65
-
-        if (ch == 'B' || ch == 'C') {
-            require(length <= 34, "mainnet address length is too long");
-        } else if (ch6 == '1' && ch == 'b' && ch2 == 'l' && ch3 == 'o' && ch4 == 'c' && ch5 == 'k') {
-            require(length == 45 || length == 65, "segwit address length is not 45 or 65");
-        } else {
-            require(false, "unsupported address leading symbol");
-        }
     }
 }

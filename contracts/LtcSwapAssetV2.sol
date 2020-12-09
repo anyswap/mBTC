@@ -576,7 +576,7 @@ contract LtcSwapAssetV2 is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("ANY Litcoin", "anyLTC", 8) {
+    constructor() public ERC20Detailed("ANY Litecoin", "anyLTC", 8) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
