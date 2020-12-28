@@ -576,7 +576,7 @@ contract XrpSwapAsset is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("ANY XRP", "anyXRP", 4) {
+    constructor() public ERC20Detailed("ANY XRP", "anyXRP", 6) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
