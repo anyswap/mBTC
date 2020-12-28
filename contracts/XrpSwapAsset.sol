@@ -556,13 +556,13 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-// File: internal/EosSwapAsset.sol
+// File: internal/XrpSwapAsset.sol
 
 pragma solidity ^0.5.0;
 
 
 
-contract EosSwapAsset is ERC20, ERC20Detailed {
+contract XrpSwapAsset is ERC20, ERC20Detailed {
     event LogChangeDCRMOwner(address indexed oldOwner, address indexed newOwner, uint indexed effectiveHeight);
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
     event LogSwapout(address indexed account, uint amount, string bindaddr);
@@ -576,7 +576,7 @@ contract EosSwapAsset is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed("ANY EOS", "anyEOS", 4) {
+    constructor() public ERC20Detailed("ANY XRP", "anyXRP", 4) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
@@ -612,11 +612,11 @@ contract EosSwapAsset is ERC20, ERC20Detailed {
 
     function verifyBindAddr(string memory bindaddr) pure internal {
         uint length = bytes(bindaddr).length;
-        require(length == 12, "address length is not 12");
+        require(length == 32 || length == 33, "address length is not 32 or 33");
 
         for (uint i = 0; i < 12; i++) {
-            byte ch = bytes(bindaddr)[i];
-            require((uint8(ch) >= uint8(byte('a')) && uint8(ch) <= uint8(byte('z'))) || ch == '1' || ch == '2' || ch == '3' || ch == '4' || ch == '5', "invalid character");
+            byte ch = bytes(bindaddr)[0];
+            require( ch == 'r', "ripple address must start with r");
 	}
     }
 }
