@@ -612,11 +612,9 @@ contract XrpSwapAsset is ERC20, ERC20Detailed {
 
     function verifyBindAddr(string memory bindaddr) pure internal {
         uint length = bytes(bindaddr).length;
-        require(length == 32 || length == 33, "address length is not 32 or 33");
+        require(length == 33 || length == 34, "address length is not 33 or 34");
 
-        for (uint i = 0; i < 12; i++) {
-            byte ch = bytes(bindaddr)[0];
-            require( ch == 'r', "ripple address must start with r");
-	}
+        byte ch = bytes(bindaddr)[0];
+        require( ch == 'r', "ripple address must start with r");
     }
 }
