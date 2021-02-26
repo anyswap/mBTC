@@ -566,10 +566,12 @@ contract XrpSwapAsset is ERC20, ERC20Detailed {
     event LogChangeDCRMOwner(address indexed oldOwner, address indexed newOwner, uint indexed effectiveHeight);
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
     event LogSwapout(address indexed account, uint amount, string bindaddr);
+    event LogRegister(address indexed account, string bindaddr);
 
     address private _oldOwner;
     address private _newOwner;
     uint256 private _newOwnerEffectiveHeight;
+    mapping (string => address)private _bindingAddress;
 
     modifier onlyOwner() {
         require(msg.sender == owner(), "only owner");
@@ -616,5 +618,16 @@ contract XrpSwapAsset is ERC20, ERC20Detailed {
 
         byte ch = bytes(bindaddr)[0];
         require( ch == 'r', "ripple address must start with r");
+    }
+    
+    function registerBindingAddress(string memory addr) public {
+        verifyBindAddr(addr);
+        _bindingAddress[addr] = msg.sender;
+        emit LogRegister(msg.sender, addr);
+        return;
+    }
+    
+    function bindingAddress(string memory addr) view public returns (address) {
+        return _bindingAddress[addr];
     }
 }

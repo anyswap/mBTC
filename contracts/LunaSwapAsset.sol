@@ -576,7 +576,7 @@ contract LunaSwapAsset is ERC20, ERC20Detailed {
         _;
     }
 
-    constructor() public ERC20Detailed(ANY LUNA", "anyLUNA", 6) {
+    constructor() public ERC20Detailed("ANY LUNA", "anyLUNA", 6) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
@@ -620,6 +620,6 @@ contract LunaSwapAsset is ERC20, ERC20Detailed {
         byte ch4 = bytes(bindaddr)[3];
         byte ch5 = bytes(bindaddr)[4];
 
-        require(ch == 't' && ch2 == 'e' && ch3 == 'r' && ch4 == 'r' && ch5 == 'a', "address prefix error")
+        require(ch == 't' && ch2 == 'e' && ch3 == 'r' && ch4 == 'r' && ch5 == 'a', "address prefix error");
     }
 }
