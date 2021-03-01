@@ -556,8 +556,6 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-// File: internal/BlockSwapAssetV2.sol
-
 pragma solidity ^0.5.0;
 
 
