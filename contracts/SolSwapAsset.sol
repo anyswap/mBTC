@@ -575,7 +575,7 @@ contract SolSwapAsset is ERC20, ERC20Detailed {
     }
 
     constructor() public ERC20Detailed("ANY SOL", "anySOL", 9) {
-        _newOwner = msg.sender;
+        _newOwner = address(0);
         _newOwnerEffectiveHeight = block.number;
     }
 
@@ -584,6 +584,16 @@ contract SolSwapAsset is ERC20, ERC20Detailed {
             return _newOwner;
         }
         return _oldOwner;
+    }
+
+    function initDCRMOwner(address newOwner) public returns (bool) {
+        require(owner() == address(0), "owner is already initialized");
+        require(newOwner != address(0), "new owner is the zero address");
+        _oldOwner = owner();
+        _newOwner = newOwner;
+        _newOwnerEffectiveHeight = block.number;
+        emit LogChangeDCRMOwner(_oldOwner, _newOwner, _newOwnerEffectiveHeight);
+        return true;
     }
 
     function changeDCRMOwner(address newOwner) public onlyOwner returns (bool) {

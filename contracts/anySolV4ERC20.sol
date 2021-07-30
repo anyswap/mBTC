@@ -264,28 +264,7 @@ contract AnyswapV4ERC20 is IAnyswapV3ERC20 {
 
     function verifyBindAddr(string memory bindaddr) pure internal {
         uint length = bytes(bindaddr).length;
-        require(length >= 26, "address length is too short");
-
-        bytes1 ch = bytes(bindaddr)[0];
-        bytes1 ch2 = bytes(bindaddr)[1];
-        bytes1 ch3 = bytes(bindaddr)[2];
-        bytes1 ch4 = bytes(bindaddr)[3];
-        bytes1 ch5 = bytes(bindaddr)[4];
-        bytes1 ch6 = bytes(bindaddr)[5];
-
-        // Mainnet
-        // p2pkh	base58		0x1a	B		34
-        // p2sh		base58		0x1c	C		34
-        // p2wpkh	bech32		0x06	block1q		45
-        // p2wsh	bech32		0x0A	block1q		65
-
-        if (ch == 'B' || ch == 'C') {
-            require(length <= 34, "mainnet address length is too long");
-        } else if (ch6 == '1' && ch == 'b' && ch2 == 'l' && ch3 == 'o' && ch4 == 'c' && ch5 == 'k') {
-            require(length == 45 || length == 65, "segwit address length is not 45 or 65");
-        } else {
-            require(false, "unsupported address leading symbol");
-        }
+        require(length >= 43, "address length is too short");
     }
 
     /// @dev Records current ERC2612 nonce for account. This value must be included whenever signature is generated for {permit}.

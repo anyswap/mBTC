@@ -570,6 +570,7 @@ contract BtcSwapAssetV2 is ERC20, ERC20Detailed {
     address private _oldOwner;
     address private _newOwner;
     uint256 private _newOwnerEffectiveHeight;
+    bool private _initialized = false;
 
     modifier onlyOwner() {
         require(msg.sender == owner(), "only owner");
@@ -586,6 +587,21 @@ contract BtcSwapAssetV2 is ERC20, ERC20Detailed {
             return _newOwner;
         }
         return _oldOwner;
+    }
+
+    function initialized() public view returns (bool) {
+        return _initialized;
+    }
+
+    function initDCRMOwner(address newOwner) public onlyOwner returns (bool) {
+        require(initialized() == false, "owner is already initialized");
+        require(newOwner != address(0), "new owner is the zero address");
+	_initialized == true;
+        _oldOwner = owner();
+        _newOwner = newOwner;
+        _newOwnerEffectiveHeight = block.number;
+        emit LogChangeDCRMOwner(_oldOwner, _newOwner, _newOwnerEffectiveHeight);
+        return true;
     }
 
     function changeDCRMOwner(address newOwner) public onlyOwner returns (bool) {

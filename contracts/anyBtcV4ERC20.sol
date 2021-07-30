@@ -266,9 +266,9 @@ contract AnyswapV4ERC20 is IAnyswapV3ERC20 {
         uint length = bytes(bindaddr).length;
         require(length >= 26, "address length is too short");
 
-        byte1 ch = bytes(bindaddr)[0];
-        byte1 ch2 = bytes(bindaddr)[1];
-        byte1 ch3 = bytes(bindaddr)[2];
+        bytes1 ch = bytes(bindaddr)[0];
+        bytes1 ch2 = bytes(bindaddr)[1];
+        bytes1 ch3 = bytes(bindaddr)[2];
 
         if (ch == '1' || ch == '3') {
             require(length <= 34, "mainnet address length is too long");

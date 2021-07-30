@@ -560,7 +560,7 @@ pragma solidity ^0.5.0;
 
 
 
-contract TerraUSDSwapAsset is ERC20, ERC20Detailed {
+contract TerraCoinSwapAsset is ERC20, ERC20Detailed {
     event LogChangeDCRMOwner(address indexed oldOwner, address indexed newOwner, uint indexed effectiveHeight);
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
     event LogSwapout(address indexed account, uint amount, string bindaddr);
@@ -568,13 +568,14 @@ contract TerraUSDSwapAsset is ERC20, ERC20Detailed {
     address private _oldOwner;
     address private _newOwner;
     uint256 private _newOwnerEffectiveHeight;
+    bool private _initialized = false;
 
     modifier onlyOwner() {
         require(msg.sender == owner(), "only owner");
         _;
     }
 
-    constructor() public ERC20Detailed("ANY Terra USD", "anyUST", 6) {
+    constructor(string memory _name, string memory _symbol, uint8 _decimal) public ERC20Detailed(_name, _symbol, _decimal) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
@@ -584,6 +585,21 @@ contract TerraUSDSwapAsset is ERC20, ERC20Detailed {
             return _newOwner;
         }
         return _oldOwner;
+    }
+
+    function initialized() public view returns (bool) {
+        return _initialized;
+    }
+
+    function initDCRMOwner(address newOwner) public returns (bool) {
+        require(initialized() == false, "owner is already initialized");
+	require(newOwner != address(0), "new owner is the zero address");
+	_initialized = true;
+	_oldOwner = owner();
+	_newOwner = newOwner;
+	_newOwnerEffectiveHeight = block.number;
+	emit LogChangeDCRMOwner(_oldOwner, _newOwner, _newOwnerEffectiveHeight);
+	return true;
     }
 
     function changeDCRMOwner(address newOwner) public onlyOwner returns (bool) {
