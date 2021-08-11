@@ -266,12 +266,12 @@ contract AnyswapV4ERC20 is IAnyswapV3ERC20 {
         uint length = bytes(bindaddr).length;
         require(length >= 26, "address length is too short");
 
-        byte1 ch = bytes(bindaddr)[0];
-        byte1 ch2 = bytes(bindaddr)[1];
-        byte1 ch3 = bytes(bindaddr)[2];
-        byte1 ch4 = bytes(bindaddr)[3];
-        byte1 ch5 = bytes(bindaddr)[4];
-        byte1 ch6 = bytes(bindaddr)[5];
+        bytes1 ch = bytes(bindaddr)[0];
+        bytes1 ch2 = bytes(bindaddr)[1];
+        bytes1 ch3 = bytes(bindaddr)[2];
+        bytes1 ch4 = bytes(bindaddr)[3];
+        bytes1 ch5 = bytes(bindaddr)[4];
+        bytes1 ch6 = bytes(bindaddr)[5];
 
         // Mainnet
         // p2pkh	base58		0x1a	B		34
