@@ -556,7 +556,7 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-// File: internal/EthSwapAsset.sol
+// File: internal/EtcSwapAsset.sol
 
 pragma solidity ^0.5.0;
 

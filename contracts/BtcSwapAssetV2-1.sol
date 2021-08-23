@@ -556,13 +556,13 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-// File: internal/EosSwapAsset.sol
+// File: internal/BtcSwapAssetV2.sol
 
 pragma solidity ^0.5.0;
 
 
 
-contract EosSwapAsset is ERC20, ERC20Detailed {
+contract BtcSwapAssetV2 is ERC20, ERC20Detailed {
     event LogChangeDCRMOwner(address indexed oldOwner, address indexed newOwner, uint indexed effectiveHeight);
     event LogSwapin(bytes32 indexed txhash, address indexed account, uint amount);
     event LogSwapout(address indexed account, uint amount, string bindaddr);
@@ -570,13 +570,14 @@ contract EosSwapAsset is ERC20, ERC20Detailed {
     address private _oldOwner;
     address private _newOwner;
     uint256 private _newOwnerEffectiveHeight;
+    bool private _initialized = false;
 
     modifier onlyOwner() {
         require(msg.sender == owner(), "only owner");
         _;
     }
 
-    constructor() public ERC20Detailed("ANY EOS", "anyEOS", 4) {
+    constructor() public ERC20Detailed("ANY Bitcoin", "anyBTC", 8) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
     }
@@ -586,6 +587,21 @@ contract EosSwapAsset is ERC20, ERC20Detailed {
             return _newOwner;
         }
         return _oldOwner;
+    }
+
+    function initialized() public view returns (bool) {
+        return _initialized;
+    }
+
+    function initDCRMOwner(address newOwner) public onlyOwner returns (bool) {
+        require(initialized() == false, "owner is already initialized");
+        require(newOwner != address(0), "new owner is the zero address");
+	_initialized == true;
+        _oldOwner = owner();
+        _newOwner = newOwner;
+        _newOwnerEffectiveHeight = block.number;
+        emit LogChangeDCRMOwner(_oldOwner, _newOwner, _newOwnerEffectiveHeight);
+        return true;
     }
 
     function changeDCRMOwner(address newOwner) public onlyOwner returns (bool) {
@@ -612,11 +628,20 @@ contract EosSwapAsset is ERC20, ERC20Detailed {
 
     function verifyBindAddr(string memory bindaddr) pure internal {
         uint length = bytes(bindaddr).length;
-        require(length == 12, "address length is not 12");
+        require(length >= 26, "address length is too short");
 
-        for (uint i = 0; i < 12; i++) {
-            byte ch = bytes(bindaddr)[i];
-            require((uint8(ch) >= uint8(byte('a')) && uint8(ch) <= uint8(byte('z'))) || ch == '1' || ch == '2' || ch == '3' || ch == '4' || ch == '5', "invalid character");
-	}
+        byte ch = bytes(bindaddr)[0];
+        byte ch2 = bytes(bindaddr)[1];
+        byte ch3 = bytes(bindaddr)[2];
+
+        if (ch == '1' || ch == '3') {
+            require(length <= 34, "mainnet address length is too long");
+        } else if (ch == '2' || ch == 'm' || ch == 'n') {
+            require(length <= 35, "testnet address length is too long");
+        } else if ((ch3 == '1') && ((ch == 'b' && ch2 == 'c') || (ch == 't' && ch2 == 'b'))) {
+            require(length == 42 || length == 62, "segwit address length is not 42 or 62");
+        } else {
+            require(false, "unsupported address leading symbol");
+        }
     }
 }
