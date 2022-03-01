@@ -573,6 +573,8 @@ contract XrpSwapAsset is ERC20, ERC20Detailed {
     uint256 private _newOwnerEffectiveHeight;
     mapping (string => address)private _bindingAddress;
 
+    bool private _init;
+
     modifier onlyOwner() {
         require(msg.sender == owner(), "only owner");
         _;
@@ -581,6 +583,7 @@ contract XrpSwapAsset is ERC20, ERC20Detailed {
     constructor() public ERC20Detailed("ANY XRP", "anyXRP", 6) {
         _newOwner = msg.sender;
         _newOwnerEffectiveHeight = block.number;
+        _init = true;
     }
 
     function owner() public view returns (address) {
@@ -588,6 +591,13 @@ contract XrpSwapAsset is ERC20, ERC20Detailed {
             return _newOwner;
         }
         return _oldOwner;
+    }
+
+    function initOwner(address _owner) external onlyOwner {
+        require(_init);
+        _newOwner = _owner;
+        _newOwnerEffectiveHeight = block.number;
+        _init = false;
     }
 
     function changeDCRMOwner(address newOwner) public onlyOwner returns (bool) {
