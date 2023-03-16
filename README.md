@@ -17,7 +17,7 @@ npm install
 This has been already done. Mention here only for re-flatten if modified later.
 
 ```shell
-mpm install -g truffle-flattener
+npm install -g truffle-flattener
 truffle-flattener internal/BtcSwapAsset.sol | sed '/SPDX-License-Identifier:/d' | sed 1i'// SPDX-License-Identifier: MIT' > contracts/BtcSwapAsset.sol
 truffle-flattener internal/EthSwapAsset.sol | sed '/SPDX-License-Identifier:/d' | sed 1i'// SPDX-License-Identifier: MIT' > contracts/EthSwapAsset.sol
 truffle-flattener internal/UsdtSwapAsset.sol | sed '/SPDX-License-Identifier:/d' | sed 1i'// SPDX-License-Identifier: MIT' > contracts/UsdtSwapAsset.sol
